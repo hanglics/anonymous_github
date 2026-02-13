@@ -1,6 +1,6 @@
 # Anonymous Github
 
-**Acknownledgement**
+**Acknowledgement**
 
 *Thanks to <a href="https://github.com/tdurieux/anonymous_github" target="_blank">@tdurieux</a> for the amazing Anonmyous GitHub work, I was chasing a Conference deadline and I found that the <a href="https://anonymous.4open.science/" target="_blank">https://anonymous.4open.science/</a> does not work anymore, and the issues are piling up. So I decide to fix it and deploy one myself, and here we go.*
 
@@ -122,3 +122,4 @@ Anonymous Github either downloads the complete repository and anonymizes the con
 
 - [Open-science and double-anonymous Peer-Review](https://www.monperrus.net/martin/open-science-double-blind)
 - [ACM Policy on Double-Blind Reviewing](https://dl.acm.org/journal/tods/DoubleBlindPolicy)
+

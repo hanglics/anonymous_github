@@ -31,41 +31,81 @@ anonymous_github
 
 ### Own instance
 
-#### 1. Clone the repository
+You can run your own instance with Docker (recommended) or with Node.js directly.
 
-```bash
-git clone https://github.com/tdurieux/anonymous_github/
-cd anonymous_github
-npm i
-```
+#### Option A: Run with Docker (recommended)
 
-#### 2. Configure the GitHub token
+**Prerequisites:** Docker and Docker Compose (or Docker Compose V2: `docker compose`).
 
-Create a `.env` file with the following contents:
+1. **Clone the repository**
 
-```env
-GITHUB_TOKEN=<GITHUB_TOKEN>
-CLIENT_ID=<CLIENT_ID>
-CLIENT_SECRET=<CLIENT_SECRET>
-PORT=5000
-DB_USERNAME=
-DB_PASSWORD=
-AUTH_CALLBACK=http://localhost:5000/github/auth,
-```
+   ```bash
+   git clone https://github.com/tdurieux/anonymous_github.git
+   cd anonymous_github
+   ```
 
-- `GITHUB_TOKEN` can be generated here: https://github.com/settings/tokens/new with `repo` scope.
-- `CLIENT_ID` and `CLIENT_SECRET` are the tokens are generated when you create a new GitHub app https://github.com/settings/applications/new.
-- The callback of the GitHub app needs to be defined as `https://<host>/github/auth` (the same as defined in AUTH_CALLBACK).
+2. **Create a `.env` file** in the project root with at least:
 
-#### 3. Start Anonymous Github server
+   ```env
+   GITHUB_TOKEN=<your_github_token>
+   CLIENT_ID=<your_github_app_client_id>
+   CLIENT_SECRET=<your_github_app_client_secret>
+   PORT=5000
+   AUTH_CALLBACK=http://localhost:5000/github/auth
+   DB_USERNAME=admin
+   DB_PASSWORD=<choose_a_secure_password>
+   ```
 
-```bash
-docker-compose up -d
-```
+   Optional: to expose the app on a different host port, add:
 
-#### 4. Go to Anonymous Github
+   ```env
+   EXPOSED_PORT=5000
+   ```
 
-Go to http://localhost:5000. By default, Anonymous Github uses port 5000. It can be changed in `docker-compose.yml`. I would recommand to put Anonymous GitHub behind ngnix to handle the https certificates.
+   The app will be available at `http://localhost:<EXPOSED_PORT>` (default 5000).
+
+   - **GITHUB_TOKEN:** Create at https://github.com/settings/tokens/new with `repo` scope.
+   - **CLIENT_ID** and **CLIENT_SECRET:** Create a GitHub OAuth App at https://github.com/settings/applications/new. Set the callback URL to `http://<your-host>:<port>/github/auth` (same as `AUTH_CALLBACK`).
+
+3. **Build and start all services**
+
+   The Compose file builds the app image locally (no pre-built image required). First run may take a few minutes to build.
+
+   ```bash
+   docker compose up -d
+   ```
+
+   Or with Docker Compose V1:
+
+   ```bash
+   docker-compose up -d
+   ```
+
+4. **Open the app**
+
+   Go to http://localhost:5000 (or the port you set with `EXPOSED_PORT`). For production, put Anonymous GitHub behind a reverse proxy (e.g. nginx) to handle HTTPS.
+
+**Exposing with nginx (HTTPS)**  
+A sample nginx config for the domain `open-science.anonymous-github.xyz` is included: `nginx-open-science.anonymous-github.xyz.conf`. Copy it to your nginx `sites-available`, enable the site, reload nginx, then run `certbot --nginx -d open-science.anonymous-github.xyz` to get a Let's Encrypt certificate. In `.env`, set `AUTH_CALLBACK=https://open-science.anonymous-github.xyz/github/auth` and configure your GitHub OAuth App callback URL to match.
+
+#### Option B: Run with Node.js (without Docker)
+
+1. Clone the repository and install dependencies:
+
+   ```bash
+   git clone https://github.com/tdurieux/anonymous_github.git
+   cd anonymous_github
+   npm install
+   ```
+
+2. Create a `.env` file as in Option A. Ensure MongoDB and Redis are running and set `DB_HOSTNAME` and `REDIS_HOSTNAME` if they are not on `localhost`.
+
+3. Build and start:
+
+   ```bash
+   npm run build
+   npm start
+   ```
 
 ## What is the scope of anonymization?
 

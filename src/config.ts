@@ -79,9 +79,14 @@ const config: Config = {
   S3_REGION: null,
 };
 
-for (let conf in process.env) {
-  if ((config as any)[conf] !== undefined) {
-    (config as any)[conf] = process.env[conf];
+// Apply environment variables; coerce numeric values
+const numericKeys = ["PORT", "REDIS_PORT", "TRUST_PROXY", "RATE_LIMIT", "DEFAULT_QUOTA", "MAX_FILE_FOLDER", "MAX_FILE_SIZE", "MAX_REPO_SIZE", "AUTO_DOWNLOAD_REPO_SIZE", "FREE_DOWNLOAD_REPO_SIZE"];
+for (const conf of Object.keys(process.env)) {
+  if ((config as Record<string, unknown>)[conf] !== undefined) {
+    const val = process.env[conf];
+    (config as Record<string, unknown>)[conf] = numericKeys.includes(conf) && val !== undefined
+      ? Number(val)
+      : val;
   }
 }
 

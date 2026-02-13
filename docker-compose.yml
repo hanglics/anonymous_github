@@ -25,12 +25,12 @@ services:
     depends_on:
       - mongodb
       - redis
-      - streamer
 
   streamer:
-    build: .
     image: anonymous_github:local
     restart: always
+    depends_on:
+      - anonymous_github
     deploy:
       mode: replicated
       replicas: 4

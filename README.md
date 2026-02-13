@@ -1,6 +1,10 @@
 # Anonymous Github
 
-Anonymous Github is a system that helps anonymize Github repositories for double-anonymous paper submissions. A public instance of Anonymous Github is hosted at https://anonymous.4open.science/.
+**Acknownledgement**
+
+*Thanks to <a href="https://github.com/tdurieux/anonymous_github" target="_blank">@tdurieux</a> for the amazing Anonmyous GitHub work, I was chasing a Conference deadline and I found that the <a href="https://anonymous.4open.science/" target="_blank">https://anonymous.4open.science/</a> does not work anymore, and the issues are piling up. So I decide to fix it and deploy one myself, and here we go.*
+
+Anonymous Github is a system that helps anonymize Github repositories for double-anonymous paper submissions. A public instance of Anonymous Github is hosted at https://open-science.anonymous-github.xyz/.
 
 ![screenshot](https://user-images.githubusercontent.com/5577568/217193282-42f608d3-2b46-4ebc-90df-772f248605be.png)
 
@@ -15,19 +19,7 @@ Anonymous Github anonymizes the following:
 
 ### Public instance
 
-**https://anonymous.4open.science/**
-
-### CLI
-
-This CLI tool allows you to anonymize your GitHub repositories locally, generating an anonymized zip file based on your configuration settings.
-
-```bash
-# Install the Anonymous GitHub CLI tool
-npm install -g @tdurieux/anonymous_github
-
-# Run the Anonymous GitHub CLI tool
-anonymous_github
-```
+**https://open-science.anonymous-github.xyz/**
 
 ### Own instance
 
@@ -40,7 +32,7 @@ You can run your own instance with Docker (recommended) or with Node.js directly
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/tdurieux/anonymous_github.git
+   git clone https://github.com/hanglics/anonymous_github.git
    cd anonymous_github
    ```
 
@@ -86,14 +78,19 @@ You can run your own instance with Docker (recommended) or with Node.js directly
    Go to http://localhost:5000 (or the port you set with `EXPOSED_PORT`). For production, put Anonymous GitHub behind a reverse proxy (e.g. nginx) to handle HTTPS.
 
 **Exposing with nginx (HTTPS)**  
-A sample nginx config for the domain `open-science.anonymous-github.xyz` is included: `nginx-open-science.anonymous-github.xyz.conf`. Copy it to your nginx `sites-available`, enable the site, reload nginx, then run `certbot --nginx -d open-science.anonymous-github.xyz` to get a Let's Encrypt certificate. In `.env`, set `AUTH_CALLBACK=https://open-science.anonymous-github.xyz/github/auth` and configure your GitHub OAuth App callback URL to match.
+
+A sample nginx config for the domain `open-science.anonymous-github.xyz` is included: `nginx-open-science.anonymous-github.xyz.conf`. 
+
+Copy it to your nginx `sites-available`, enable the site, reload nginx, then run `certbot --nginx -d open-science.anonymous-github.xyz` to get a Let's Encrypt certificate. 
+
+In `.env`, set `AUTH_CALLBACK=https://open-science.anonymous-github.xyz/github/auth` and configure your GitHub OAuth App callback URL to match.
 
 #### Option B: Run with Node.js (without Docker)
 
 1. Clone the repository and install dependencies:
 
    ```bash
-   git clone https://github.com/tdurieux/anonymous_github.git
+   git clone https://github.com/hanglics/anonymous_github.git
    cd anonymous_github
    npm install
    ```

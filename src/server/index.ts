@@ -234,4 +234,7 @@ export default async function start() {
   console.log("Database connected and Server started on port: " + config.PORT);
 }
 
-start();
+start().catch((err) => {
+  console.error("Fatal error on startup:", err);
+  process.exit(1);
+});

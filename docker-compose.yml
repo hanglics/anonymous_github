@@ -23,8 +23,10 @@ services:
       timeout: 10s
       retries: 5
     depends_on:
-      - mongodb
-      - redis
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
 
   streamer:
     image: anonymous_github:local

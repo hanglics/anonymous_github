@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   anonymous_github:
     build: .
@@ -30,6 +28,7 @@ services:
       - streamer
 
   streamer:
+    build: .
     image: anonymous_github:local
     restart: always
     deploy:
